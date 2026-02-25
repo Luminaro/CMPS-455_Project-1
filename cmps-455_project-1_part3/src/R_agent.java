@@ -25,7 +25,7 @@ public class R_agent implements Runnable{
             Part2.finReadMutex.acquire();
             Part2.finishedRead++;
             Part2.finReadMutex.release();
-            if (Part2.readCount == Part2.maxReaders){
+            if (Part2.readCount == Part2.maxReaders || Part2.finishedRead == Part2.numReaders) {
                 Part2.readCount = 0;
 
                 Part2.cControl.release();
