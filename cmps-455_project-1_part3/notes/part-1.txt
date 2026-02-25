@@ -1,0 +1,2 @@
+meals:1000, philosophers:20, cycle_duration:1000ms
+meals:10000, philosophers:20, cycle_duration_ms:1000, time_taken_ms:1057.9769

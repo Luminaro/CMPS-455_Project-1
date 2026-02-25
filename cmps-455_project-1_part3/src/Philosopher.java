@@ -4,19 +4,21 @@ public class Philosopher extends Thread{
     MealCount mealCount;
     Chopstick first;
     Chopstick second;
-    static final long cycle_duration_millis = 0;
+    long cycle_duration_millis;
     int id;
     public Philosopher(
             MealCount mealCount,
             boolean isLeftFirst,
             Chopstick left,
             Chopstick right,
-            int id
+            int id,
+            long cycle_duration_millis
     ){
         this.mealCount = mealCount;
         this.id = id;
         this.first = (isLeftFirst) ? left : right;
         this.second = (isLeftFirst) ? right : left;
+        this.cycle_duration_millis = cycle_duration_millis;
     }
     @Override
     public void run(){
@@ -55,27 +57,25 @@ public class Philosopher extends Thread{
         chopstick.release();
         log(String.format("Put down chopstick %d", chopstick.id));
     }
-    public int randint(int min, int max){
+    static public int randint(int min, int max){
         return (int)(Math.random() * (max - min + 1) + max);
     }
-    public void waitRandomCycles(int min_cycles, int max_cycles){
+    static public void waitRandomCycles(int min_cycles, int max_cycles, long cycle_duration_millis){
         int num_cycles = randint(min_cycles, max_cycles);
-        for(int i=0; i<num_cycles; i++){
-            try{
-                Thread.sleep(cycle_duration_millis);
-            } catch (InterruptedException e){
-                throw(new RuntimeException(e));
-            }
+        try {
+            Thread.sleep(cycle_duration_millis * num_cycles);
+        } catch (InterruptedException e){
+            throw(new RuntimeException(e));
         }
     }
     public void eat(int meals_left){
         log("Started eating");
-        waitRandomCycles(1, 3);
+        waitRandomCycles(3, 6, cycle_duration_millis);
         log(String.format("Stopped eating. %d meals left...", meals_left));
     }
     public void think(){
         log("Started thinking");
-        waitRandomCycles(1, 3);
+        waitRandomCycles(3, 6, cycle_duration_millis);
         log("Stopped thinking");
     }
 }

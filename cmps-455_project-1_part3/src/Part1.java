@@ -1,14 +1,10 @@
 public class Part1 {
     public static void main(String[] args) throws InterruptedException {
-        for(int i=0; i<1; i++){
-            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            main2(args);
-        }
-    }
-    public static void main2(String[] args) throws InterruptedException {
-        int num_meals = 10;
+        int num_meals = 10000;
+        int num_philosophers = 20;
+        long cycle_duration_millis = 1000;
+
         MealCount mealCount = new MealCount(num_meals);
-        int num_philosophers = 5;
         Chopstick[] chopsticks = new Chopstick[num_philosophers];
         for (int i = 0; i < chopsticks.length; i++) {
             chopsticks[i] = new Chopstick(i);
@@ -23,10 +19,11 @@ public class Part1 {
                     i % 2 == 0,
                     chopsticks[i],
                     chopsticks[(i + 1) % num_philosophers],
-                    i
+                    i,
+                    cycle_duration_millis
             );
         }
-
+        long start_time_ns = System.nanoTime();
         for (int i = 0; i < num_philosophers; i++) {
             philosophers[i].start();
         }
@@ -35,6 +32,11 @@ public class Part1 {
             philosophers[i].join();
         }
 
+        long stop_time_ns = System.nanoTime();
+
+        long duration_ns = stop_time_ns - start_time_ns;
+        System.out.printf("Runtime in milliseconds = ");
+        System.out.println((duration_ns) / 1000000.0);
 
     }
 

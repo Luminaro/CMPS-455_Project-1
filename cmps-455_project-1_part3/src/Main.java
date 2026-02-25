@@ -13,12 +13,12 @@ public class Main {
         }
 
         int value = Integer.parseInt(args[value_idx]);
-        System.out.printf("Value: %d\n", value);
         if(value != 1 && value != 2){
             System.out.println("Must enter a valid value for arg -A (1 or 2)");
             return;
         }
 
+        System.out.printf("Running part %d...\n", value);
         switch(value){
             case 1:
                 Part1.main(args);
